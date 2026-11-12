@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Engineering Practice — Apex Core Technologies</title>
+  <meta name="description" content="Initiate a technical consultation with Apex Core Technologies. Schedule an architecture review or request an engineering proposal.">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Main Navigation">
+        <a href="index.html" class="brand-logo">
+          <span class="brand-icon">A</span>
+          <span>Apex Core</span>
+        </a>
+
+        <div class="nav-menu">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="about.html" class="nav-link">About</a>
+          <a href="services.html" class="nav-link">Services</a>
+          <a href="contact.html" class="nav-link active">Contact</a>
+        </div>
+
+        <div class="nav-cta">
+          <a href="contact.html" class="btn btn-secondary btn-sm">Inquire</a>
+          <a href="services.html" class="btn btn-primary btn-sm">Explore Solutions</a>
+        </div>
+
+        <button class="hamburger-btn" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </nav>
+    </div>
+
+    <div class="mobile-nav-drawer" aria-label="Mobile Navigation">
+      <div class="mobile-nav-list">
+        <a href="index.html" class="mobile-nav-link">Home</a>
+        <a href="about.html" class="mobile-nav-link">About</a>
+        <a href="services.html" class="mobile-nav-link">Services</a>
+        <a href="contact.html" class="mobile-nav-link active">Contact</a>
+        <div style="margin-top: 16px;">
+          <a href="contact.html" class="btn btn-primary btn-block">Schedule Architecture Review</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <div class="grid-2" style="align-items: flex-start; gap: var(--space-3xl);">
+          <!-- Contact Details Column -->
+          <div>
+            <span class="section-label">Direct Communication</span>
+            <h1 style="margin-bottom: 16px; font-size: 2.25rem;">Initiate an engineering consultation.</h1>
+            <p style="color: var(--color-secondary); margin-bottom: 32px; font-size: 1.05rem;">
+              Submit your technical requirements or system specifications. An engineering practice lead will review your submission and respond within one business day.
+            </p>
+
+            <div style="display: flex; flex-direction: column; gap: 24px; margin-bottom: 40px;">
+              <div>
+                <h4 style="margin-bottom: 4px;">Direct Technical Inquiries</h4>
+                <p style="color: var(--color-muted); margin: 0; font-family: var(--font-family-mono); font-size: 0.9rem;">
+                  inquiries@apexcore.tech
+                </p>
+              </div>
+
+              <div>
+                <h4 style="margin-bottom: 4px;">Primary Engineering Center</h4>
+                <p style="color: var(--color-muted); margin: 0; font-size: 0.95rem;">
+                  WeIntern Technical Campus, Software Technology Parks of India, Bangalore, KA 560100
+                </p>
+              </div>
+
+              <div>
+                <h4 style="margin-bottom: 4px;">Lead Architect Office</h4>
+                <p style="color: var(--color-muted); margin: 0; font-size: 0.95rem;">
+                  Candidate: Tejas J. Solanki (WeIntern Full Stack Engineering Lead)
+                </p>
+              </div>
+            </div>
+
+            <div class="card" style="background-color: var(--color-surface-subtle); padding: 20px;">
+              <h4 style="margin-bottom: 8px;">Non-Disclosure Guarantee</h4>
+              <p style="font-size: 0.85rem; color: var(--color-muted); margin: 0;">
+                All architecture briefs and technical specifications submitted through this portal are treated as proprietary and governed by our standard mutual non-disclosure agreement.
+              </p>
+            </div>
+          </div>
+
+          <!-- Contact Form Column -->
+          <div>
+            <div class="form-card">
+              <h3 style="margin-bottom: 8px;">Technical Consultation Form</h3>
+              <p style="font-size: 0.9rem; color: var(--color-muted); margin-bottom: 24px;">
+                All marked fields are required for technical scoping.
+              </p>
+
+              <!-- Success Feedback Banner -->
+              <div id="formSuccessBanner" class="feedback-banner feedback-success" role="alert">
+                <strong>Inquiry Received:</strong> Your consultation request has been validated and logged. A practice engineer will contact you shortly.
+              </div>
+
+              <form id="corporateContactForm" novalidate>
+                <div class="form-group">
+                  <label for="fullName" class="form-label">Full Legal Name *</label>
+                  <input type="text" id="fullName" class="form-input" placeholder="e.g. Tejas Solanki" required autocomplete="name">
+                  <div id="fullNameError" class="field-error" role="alert"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="email" class="form-label">Work Email Address *</label>
+                  <input type="email" id="email" class="form-input" placeholder="e.g. tejas@apexcore.tech" required autocomplete="email">
+                  <div id="emailError" class="field-error" role="alert"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="subject" class="form-label">Consultation Focus Area *</label>
+                  <select id="subject" class="form-select" required>
+                    <option value="" disabled selected>Select an engineering domain...</option>
+                    <option value="cloud-backend">Distributed Backend Architecture (Python / REST)</option>
+                    <option value="database-design">Relational Database Modeling & Migration</option>
+                    <option value="auth-security">Enterprise Authentication & Access Control (JWT / Bcrypt)</option>
+                    <option value="full-stack">Complete Full-Stack Application Delivery</option>
+                    <option value="architecture-audit">Codebase Security & Performance Audit</option>
+                  </select>
+                  <div id="subjectError" class="field-error" role="alert"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="message" class="form-label">Project Briefing & Technical Notes *</label>
+                  <textarea id="message" class="form-textarea" placeholder="Detail your project timeline, expected concurrency, technology constraints, and core deliverables..." required></textarea>
+                  <div id="messageError" class="field-error" role="alert"></div>
+                </div>
+
+                <div class="form-group" style="display: flex; align-items: flex-start; gap: 8px;">
+                  <input type="checkbox" id="termsConsent" style="margin-top: 4px;" required>
+                  <label for="termsConsent" style="font-size: 0.85rem; color: var(--color-secondary); line-height: 1.4;">
+                    I consent to the processing of technical project data in compliance with enterprise security and confidentiality policies.
+                  </label>
+                </div>
+                <div id="termsError" class="field-error" style="margin-top: -12px; margin-bottom: 16px;" role="alert"></div>
+
+                <button type="submit" class="btn btn-primary btn-block">Transmit Technical Inquiry</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo">
+            <span class="brand-icon">A</span>
+            <span>Apex Core</span>
+          </a>
+          <p>
+            Architectural solutions and full-stack software development for mission-critical enterprise platforms.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <div class="footer-links">
+            <a href="index.html" class="footer-link">Home</a>
+            <a href="about.html" class="footer-link">About Us</a>
+            <a href="services.html" class="footer-link">Services</a>
+            <a href="contact.html" class="footer-link">Contact</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Core Domains</h4>
+          <div class="footer-links">
+            <a href="services.html" class="footer-link">Distributed Backends</a>
+            <a href="services.html" class="footer-link">Relational Persistence</a>
+            <a href="services.html" class="footer-link">Authentication Systems</a>
+            <a href="services.html" class="footer-link">Responsive Frontends</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Internship Details</h4>
+          <div class="footer-links">
+            <span class="footer-link" style="color: var(--color-primary); font-weight: 500;">Candidate: Tejas J. Solanki</span>
+            <span class="footer-link">Track: Python Full Stack</span>
+            <span class="footer-link">Organization: WeIntern Pvt Ltd</span>
+            <span class="footer-link">Milestone: Week 2 Assignment</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 Apex Core Technologies. All rights reserved.</div>
+        <div>Standardized under WeIntern Full Stack Engineering Framework</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

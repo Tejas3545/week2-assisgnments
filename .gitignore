@@ -1,0 +1,22 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Environments
+env/
+venv/
+.venv/
+ENV/
+
+# Databases (optional: preserve initialized SQLite DBs for demo evaluation if needed, but ignore locks/temp)
+*.db-journal
+*.db-wal
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

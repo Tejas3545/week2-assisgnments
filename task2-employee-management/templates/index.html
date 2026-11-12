@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Management System — WeIntern Full Stack Week 2</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <div class="brand-wrapper">
+      <div class="brand-badge">EM</div>
+      <div>
+        <div class="brand-title">Employee Records Administration</div>
+        <div class="brand-subtitle">Relational CRUD Platform &bull; Python Flask + SQLite Backend</div>
+      </div>
+    </div>
+    <div style="font-size: 0.85rem; color: var(--color-muted); text-align: right;">
+      <div>Candidate: <strong>Tejas J. Solanki</strong></div>
+      <div>WeIntern Full Stack Internship &bull; Task 2</div>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <!-- Metrics Row -->
+    <section class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-label">Active Records</div>
+        <div class="metric-val" id="metricTotal">--</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Operating Departments</div>
+        <div class="metric-val" id="metricDepts">--</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Average Annual Base</div>
+        <div class="metric-val" id="metricAvgSalary">--</div>
+      </div>
+    </section>
+
+    <!-- Controls Card -->
+    <section class="controls-card">
+      <div class="search-filter-group">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by name, email, or role...">
+        <select id="deptFilter" class="filter-select">
+          <option value="">All Departments</option>
+          <option value="Engineering">Engineering</option>
+          <option value="DevOps & Cloud">DevOps & Cloud</option>
+          <option value="Security">Security</option>
+          <option value="Product">Product</option>
+          <option value="Finance">Finance</option>
+          <option value="Human Resources">Human Resources</option>
+        </select>
+      </div>
+
+      <div>
+        <button id="openAddModalBtn" class="btn btn-primary">Add Employee Record</button>
+      </div>
+    </section>
+
+    <!-- Data Table Container -->
+    <section class="table-container">
+      <table class="emp-table">
+        <thead>
+          <tr>
+            <th data-sort="id">ID</th>
+            <th data-sort="full_name">Employee & Contact</th>
+            <th data-sort="department">Department</th>
+            <th data-sort="role">Designation</th>
+            <th data-sort="salary">Compensation</th>
+            <th data-sort="join_date">Join Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="employeeTableBody">
+          <!-- Dynamically populated via app.js -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- Add / Edit Modal -->
+  <div id="employeeModal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalTitle" class="modal-title">Add Employee Record</h3>
+        <button class="modal-close-btn" data-close-modal aria-label="Close dialog">&times;</button>
+      </div>
+      <form id="employeeForm" novalidate>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="empFullName" class="form-label">Full Name *</label>
+            <input type="text" id="empFullName" class="form-control" placeholder="e.g. Marcus Vance" required>
+            <div id="empFullNameError" class="field-err-msg"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="empEmail" class="form-label">Corporate Email *</label>
+            <input type="email" id="empEmail" class="form-control" placeholder="e.g. marcus@apexcore.tech" required>
+            <div id="empEmailError" class="field-err-msg"></div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="form-group">
+              <label for="empDepartment" class="form-label">Department *</label>
+              <select id="empDepartment" class="form-control" required>
+                <option value="" disabled selected>Select department...</option>
+                <option value="Engineering">Engineering</option>
+                <option value="DevOps & Cloud">DevOps & Cloud</option>
+                <option value="Security">Security</option>
+                <option value="Product">Product</option>
+                <option value="Finance">Finance</option>
+                <option value="Human Resources">Human Resources</option>
+              </select>
+              <div id="empDepartmentError" class="field-err-msg"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="empRole" class="form-label">Designation / Role *</label>
+              <input type="text" id="empRole" class="form-control" placeholder="e.g. Cloud Engineer" required>
+              <div id="empRoleError" class="field-err-msg"></div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="form-group">
+              <label for="empSalary" class="form-label">Annual Salary (USD) *</label>
+              <input type="number" id="empSalary" class="form-control" placeholder="e.g. 125000" min="1000" step="500" required>
+              <div id="empSalaryError" class="field-err-msg"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="empJoinDate" class="form-label">Join Date *</label>
+              <input type="date" id="empJoinDate" class="form-control" required>
+              <div id="empJoinDateError" class="field-err-msg"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal>Cancel</button>
+          <button type="submit" id="saveEmployeeBtn" class="btn btn-primary">Save Employee Record</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div id="deleteModal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Confirm Record Deletion</h3>
+        <button class="modal-close-btn" data-close-modal aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom: 12px; color: var(--color-primary); font-size: 0.95rem;">
+          Are you sure you want to delete employee record <strong id="deleteEmployeeName"></strong>?
+        </p>
+        <p style="font-size: 0.85rem; color: var(--color-muted); margin: 0;">
+          This action will permanently purge the record from the relational SQLite database. This operation cannot be undone.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close-modal>Cancel</button>
+        <button type="button" id="confirmDeleteBtn" class="btn btn-danger">Confirm Deletion</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

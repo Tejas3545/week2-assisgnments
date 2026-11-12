@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enterprise Authentication & Access Control — WeIntern Week 2</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <div class="brand-wrapper">
+      <div class="brand-badge">ID</div>
+      <div>
+        <div class="brand-title">Identity & Access Governance</div>
+        <div class="brand-subtitle">Cryptographic Bcrypt Hashing &bull; Stateless JSON Web Tokens (JWT)</div>
+      </div>
+    </div>
+    <div style="font-size: 0.85rem; color: var(--color-muted); text-align: right;">
+      <div>Candidate: <strong>Tejas J. Solanki</strong></div>
+      <div>WeIntern Full Stack Internship &bull; Task 3</div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <!-- Authentication Card (Login / Register) -->
+    <div id="authContainer" class="auth-container">
+      <div class="auth-card">
+        <div class="tab-header">
+          <button class="tab-btn is-active" data-tab="login">Account Sign-In</button>
+          <button class="tab-btn" data-tab="register">New Registration</button>
+        </div>
+
+        <div class="auth-body">
+          <!-- Sign-In Tab Panel -->
+          <div id="loginPanel" class="auth-tab-panel is-active">
+            <div id="loginBanner" class="feedback-banner" role="alert"></div>
+
+            <form id="loginForm" novalidate>
+              <div class="form-group">
+                <label for="loginIdentifier" class="form-label">Username or Work Email</label>
+                <input type="text" id="loginIdentifier" class="form-control" placeholder="tejas_solanki or email@apexcore.tech" required autocomplete="username">
+              </div>
+
+              <div class="form-group">
+                <label for="loginPassword" class="form-label">Password</label>
+                <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required autocomplete="current-password">
+              </div>
+
+              <button type="submit" id="loginBtn" class="btn btn-primary btn-block">Authenticate & Obtain JWT</button>
+            </form>
+
+            <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--color-border); font-size: 0.8rem; color: var(--color-muted);">
+              <strong>Pre-seeded Demo Account:</strong><br>
+              Identifier: <code>tejas_solanki</code> &bull; Password: <code>TejasPass@2026</code>
+            </div>
+          </div>
+
+          <!-- Registration Tab Panel -->
+          <div id="registerPanel" class="auth-tab-panel">
+            <div id="regBanner" class="feedback-banner" role="alert"></div>
+
+            <form id="registerForm" novalidate>
+              <div class="form-group">
+                <label for="regUsername" class="form-label">Username *</label>
+                <input type="text" id="regUsername" class="form-control" placeholder="e.g. tejas_architect" required autocomplete="username">
+                <div id="regUsernameError" class="field-err-msg"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="regEmail" class="form-label">Work Email *</label>
+                <input type="email" id="regEmail" class="form-control" placeholder="e.g. tejas@apexcore.tech" required autocomplete="email">
+                <div id="regEmailError" class="field-err-msg"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="regRole" class="form-label">Security Role Tier</label>
+                <select id="regRole" class="form-control">
+                  <option value="engineer" selected>Systems Engineer</option>
+                  <option value="lead_architect">Lead Architect</option>
+                  <option value="security_officer">Security Officer</option>
+                  <option value="auditor">Compliance Auditor</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="regPassword" class="form-label">Password *</label>
+                <input type="password" id="regPassword" class="form-control" placeholder="Create high-entropy password" required autocomplete="new-password">
+                <div id="regPasswordError" class="field-err-msg"></div>
+
+                <div class="pw-checklist">
+                  <div style="font-weight: 600; margin-bottom: 4px; color: var(--color-secondary);">Complexity Requirements:</div>
+                  <div id="pwLength" class="pw-item">&bull; Minimum 8 characters in length</div>
+                  <div id="pwUpper" class="pw-item">&bull; At least one uppercase letter (A-Z)</div>
+                  <div id="pwLower" class="pw-item">&bull; At least one lowercase letter (a-z)</div>
+                  <div id="pwNumber" class="pw-item">&bull; At least one numeric digit (0-9)</div>
+                </div>
+              </div>
+
+              <button type="submit" id="registerBtn" class="btn btn-primary btn-block">Register Enterprise Account</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Protected Dashboard (Rendered dynamically when JWT is authenticated) -->
+    <div id="protectedDashboard" class="protected-dashboard">
+      <div class="dashboard-card">
+        <div class="user-badge-header">
+          <div class="user-meta">
+            <h2>Welcome, <span id="dashUsername">Authenticated User</span></h2>
+            <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
+              <span id="dashRole" class="user-role-tag">ROLE</span>
+              <span id="dashStatus" style="font-size: 0.85rem; color: var(--color-muted);">Active Session</span>
+            </div>
+          </div>
+          <button id="logoutBtn" class="btn btn-secondary btn-sm">Terminate Session</button>
+        </div>
+
+        <div style="margin-bottom: 24px;">
+          <h4 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-muted); margin-bottom: 8px;">
+            Active JSON Web Token (Bearer Payload)
+          </h4>
+          <div id="rawTokenDisplay" class="token-inspect-box"></div>
+          <div style="font-size: 0.8rem; color: var(--color-muted);">
+            Cryptographically signed using HMAC-SHA256. Verified by the backend on each API transaction.
+          </div>
+        </div>
+
+        <div>
+          <h4 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-muted); margin-bottom: 8px;">
+            Security & Audit Telemetry
+          </h4>
+          <table class="audit-table">
+            <thead>
+              <tr>
+                <th>Timestamp (UTC)</th>
+                <th>Security Event</th>
+                <th>Origin Component</th>
+              </tr>
+            </thead>
+            <tbody id="auditLogBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="/static/js/auth.js"></script>
+</body>
+</html>
